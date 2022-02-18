@@ -1,0 +1,231 @@
+<!-- Content Header (Page header) -->
+<div ng-controller="DeliverorderController as deliverorderctrl">
+   <section class="content-header">
+      <h1>
+         Delivered Orders
+         <small>Deliver History</small>
+      </h1>
+      <ol class="breadcrumb">
+         <li><a href="#"><i class="fa fa-dashboard"></i> Level</a></li>
+         <li class="active">Here</li>
+      </ol>
+   </section>
+
+    <audio id="myAudio">
+  <!-- <source src="https://www.w3schools.com/jsref/horse.ogg" type="audio/ogg"> -->
+  <source src="http://www.schillmania.com/projects/soundmanager2/demo/mpc/audio/CHINA_1.mp3" type="audio/mpeg">
+</audio>
+
+
+   <section class="content-header">
+      <div class="row">
+         <div class="col-xs-12">
+            <div class="box">
+               <div class="box-header">
+                  <h3 class="box-title">Search Data</h3>
+               </div>
+               <div class="box-body">
+                  <div class="row">
+                     <div class="col-md-3">
+                        <div class="form-group">
+                           <label>From Date</label>
+                           <div class="input-group date">
+                              <div class="input-group-addon">
+                                 <i class="fa fa-calendar"></i>
+                              </div>
+                              <input type="text" class="form-control pull-right" id="datepicker1" ng-model='formdate'>
+                           </div>
+                        </div>
+                        <!-- /.form-group -->
+                       
+                     </div>
+                     <!-- /.col -->
+                     <div class="col-md-3">
+                        <div class="form-group">
+                           <label>To Date</label>
+                           <div class="input-group date">
+                              <div class="input-group-addon">
+                                 <i class="fa fa-calendar"></i>
+                              </div>
+                              <input type="text" class="form-control pull-right" id="datepicker2" ng-model='todate'>
+                           </div>
+                        </div>
+                        <!-- /.form-group -->
+                        
+                     </div>
+                     <div class="col-md-3">
+                        <div class="form-group">
+                           <label>Item Name</label>
+                           <div class="input-group date">
+                              <div class="input-group-addon">
+                                 <i class="fa fa-barcode"></i>
+                              </div>
+                              <input type="text" class="form-control pull-right" id="itemname"  ng-model='searchText' ng-keyup='fetchItems()'  ng-click='searchboxClicked($event);'  placeholder='Enter Item Name'>
+                                <div class="searchResultDiv" id="searchData">
+                                <ul id='searchResult' >
+                                 <li ng-click='setValue($index,$event)' 
+                                     ng-repeat="result in searchResult" >
+                                    {{ result.name }}
+                                        
+                                </li> 
+                              </ul>
+                            </div>
+                           </div>
+                        </div>
+                     </div>
+
+                     <div class="col-md-3">
+                          <div class="form-group" style="margin-top:24px">
+                              <button type="button" class="btn btn-block btn-primary" style="display:table-cell;width:90%;" ng-click="getSearchResult()">Get Data</button>
+                           </div>
+                     </div>
+                     <label style="color:red;">{{alertmsg}}</label>
+
+                     <!-- /.row -->
+                  </div>
+                  <!-- /.box-body -->
+<!--                    <div class="box-footer" style="text-align:center;">
+                    <label style="color:red;">{{alertmsg}}</label>
+                  </div>  -->
+               </div>
+            </div>
+         </div>
+      </div>
+   </section>
+   <!-- Main content -->
+   <section class="content">
+      <div class="row">
+         <div class="col-xs-12">
+            <div class="box">
+               <div class="box-header">
+                  <h3 class="box-title">Delivered Order Table</h3>
+               </div>
+               <!-- /.box-header -->
+               <div class="box-body">
+                <span ng-if=" copy_items.length==0">No Data Found</span>
+              <table id="ordertbl" class="table table-bordered table-hover" ng-if="copy_items.length!=0">
+                     <tbody ng-repeat="order in copy_items | limitTo:limit">
+                        <tr style="background:#f1eeeedb">
+                           <td colspan="13" style="font-weight: bold;text-align:left;"><span>ORDER ID:</span><span style="color:#66c60a">{{order.invNo}}</span> <span style="margin-left:20px"> ORDER DATE: </span> <span style="color:#66c60a"> {{order.invDate.split(' ')[0] | date : "dd-MM-yyyy"}} </span> <span style="margin-left:20px"> ORDER TIME: </span> 
+                            <span style="color:#66c60a" ng-if="order.createdDate.split(' ')[1].split(':')[0]<12"> {{order.createdDate.split(' ')[1]}} AM </span> 
+                    <span style="color:#66c60a" ng-if="order.createdDate.split(' ')[1].split(':')[0]>=12"> {{order.createdDate.split(' ')[1].split(':')[0]-12}}:{{order.createdDate.split(' ')[1].split(':')[1]}}:{{order.createdDate.split(' ')[1].split(':')[2]}} PM </span>
+                           <span style="margin-left:20px"> PAYMENT MODE: </span> <span style="color:#66c60a" ng-if="order.paymentMode == 1"> ONLINE</span><span style="color:#66c60a" ng-if="order.paymentMode == 2"> COD</span> 
+                            <br>
+                            <b>Buyer Details :</b><span style="font-weight:500;margin-left:5px"> {{order.addressShipping.receiverName}} </span> 
+                            <span style="margin-left:10px"> <i class="fa fa-phone" aria-hidden="true"></i> </span> <span style="font-weight:500"> {{order.addressShipping.contactPhone}} </span>
+                            <br>
+                            <b>Buyer Address :</b> <span style="font-weight:500;margin-left:5px"> {{order.addressShipping.streetAddress}} , {{order.addressShipping.city.name}} , {{order.addressShipping.state.name}} , {{order.addressShipping.country.name}} , {{order.addressShipping.pincode}} </span> <br>
+                            <span ng-if="order.addressShipping.landmark"> <b> Landmark :</b> </span> <span style="font-weight:500;margin-left:5px"> {{order.addressShipping.landmark}} </span>
+                           </td>
+                        </tr>
+                        <tr>
+                           <!--  <td style="font-weight: bold;text-align:center;">Select</td> -->
+                           <td style="font-weight: bold;text-align:center;">No.</td>
+                          <!--  <td style="font-weight: bold;text-align:center;">Buyer Details</td>
+                           <td style="font-weight: bold;text-align:center;">Buyer Address</td> -->
+                           <td style="font-weight: bold;text-align:center;">Item Name</td>
+                           <td style="font-weight: bold;text-align:center;">Order Oty</td>
+                           <td style="font-weight: bold;text-align:center;">Order Status</td>
+                           <td style="font-weight: bold;text-align:center;">Delivery Type</td>
+                           <td style="font-weight: bold;text-align:center;">Gross</td>
+                           <td style="font-weight: bold;text-align:center;">Tax</td>
+                           <td style="font-weight: bold;text-align:center;">Discount</td>
+                           <td style="font-weight: bold;text-align:center;">Branch No</td>
+                           <td style="font-weight: bold;text-align:center;">Exp. Date</td>
+                           <td style="font-weight: bold;text-align:center;">Total</td>
+                           <!-- <td style="font-weight: bold;text-align:center;">Dispatch</td> -->
+                        </tr>
+                        <tr ng-repeat="orderdetails in order.orderDetails" 
+                            ng-if="orderdetails.status==4 && ((search==0) || ( search!=0 && orderdetails.itemId==search))">
+                             <!-- || (orderdetails.status==2 && itemid!=0 && orderdetails.itemId==search) -->
+                           <td style="text-align:center;">{{$index+1}}</td>
+
+                           <td style="text-align:center;">{{orderdetails.itemName}}</td>
+                           <td style="text-align:center;">{{orderdetails.packQty}}</td>
+                           <td style="text-align:center;">
+                               <span ng-if="orderdetails.status == 0 " style="font-size:17px;color:#ea433a;font-weight:600">Progress</span>
+                               <span ng-if="orderdetails.status == 1 " style="font-size:17px;color:#0871b9;font-weight:600">Accepted</span>
+                               <span ng-if="orderdetails.status == 2 " style="font-size:17px;color:#34a853;font-weight:600">Sold</span>
+                               <span ng-if="orderdetails.status == 3 " style="font-size:17px;color:#34a853;font-weight:600">Dispatched</span>
+                               <span ng-if="orderdetails.status == 4 " style="font-size:17px;color:#34a853;font-weight:600">Delivered</span>
+                           </td>
+                           <td style="text-align:center"> {{orderdetails.deliveryType}} </td>
+                            <td style="text-align:center;">{{orderdetails.grossAmount | number:2}}</td>
+                           <td style="text-align:center;">{{orderdetails.taxAmount | number:2}}</td>
+                           <td style="text-align:center;">{{orderdetails.disc | number:2}}</td>
+                           <td style="text-align:center;">{{orderdetails.batchNo}}</td>
+                           <td style="text-align:center;">{{orderdetails.expiryDate}}</td>
+                           <td style="text-align:center;">{{orderdetails.netAmount | number:2}}</td>
+                           <!-- <td style="text-align:center;"><button class="btn single_accept_btn" ng-click="deliverItem(order,orderdetails.id);" ng-if="orderdetails.status == 3"> DELIVER </button></td> -->
+                        </tr>
+                        <tr>
+                            <td colspan="13" style="text-align:right;background:#656565;color:white"> <span> <b>Total Payable Amount :</b> </span> {{order.totalSum |number:2}} </td>
+                        </tr>
+                     </tbody>
+                  </table>
+               </div>
+              
+
+            <!-- ........... Pagination Part .............. -->
+
+                 <div ng-if="orders.length != 0" style="text-align:right;margin-top:20px">
+                  <nav aria-label="Page navigation" align="left" style="display:inline-block;margin-right:10px">
+                        <ul class="pagination">
+                            <li ng-class="{disabled:!navigators.prev.state}">
+                                <a aria-label="Previous" ng-click="prev()" >
+                                  <span aria-hidden="true">«</span>
+                                </a>
+                            </li>
+                            <li ng-repeat="page in pages" ng-class="{active:page.active}" ng-disabled="page.active">
+                                <a  ng-click="setPageActive(page.page)" >{{page.page}}</a>
+                            </li>
+                            <li ng-class="{disabled:!navigators.next.state}">
+                                <a aria-label="Next" ng-click="next()">
+                                   <span aria-hidden="true">»</span>
+                                </a>
+                            </li>
+                        </ul>
+                  </nav>
+              </div>
+
+             <!-- ........... Pagination Part End .............. -->
+
+
+
+            </div>
+            <!-- /.box -->
+         </div>
+         <!-- /.col -->
+      </div>
+      <!-- /.row -->
+   </section>
+   <!-- /.content -->
+</div>
+<script>
+   $(function () {
+     var currentDate = new Date();
+     var yyyy = currentDate.getFullYear().toString();
+     var mm = (currentDate.getMonth()+1).toString();
+     var dd  = currentDate.getDate().toString();
+    /*$("header, footer ,aside").hide();*/
+     $("#div2").addClass("content-wrapper");
+     $("#delivered_li").addClass("active");
+    /* $('#ordertbl').DataTable()*/
+     $('#datepicker1').datepicker({
+          autoclose: true,
+          format : "yyyy-mm-dd",
+          endDate :  new Date()
+     })
+     $("#datepicker1").val(yyyy+"-"+mm+"-"+dd); 
+
+     $('#datepicker2').datepicker({
+          autoclose: true,
+          format : "yyyy-mm-dd",
+          endDate :  new Date()
+
+       })
+     $("#datepicker2").val(yyyy+"-"+mm+"-"+dd); 
+   
+     });
+   
+</script>

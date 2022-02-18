@@ -1,0 +1,153 @@
+<!-- Content Header (Page header) -->
+<div ng-controller="EditDeliveryPersonController as editdeliveryperson">
+        <div>
+           <style type="text/css">
+              .btn:hover{
+                color:white;
+              }
+           </style>
+        </div>
+   <section class="content-header">
+      <h1>
+         Edit Delivery Person
+         <small>Edit Delivery Person</small>
+      </h1>
+      <ol class="breadcrumb">
+         <li><a href="#"><i class="fa fa-dashboard"></i> Level</a></li>
+         <li class="active">Here</li>
+      </ol>
+   </section>
+
+
+
+                <div class="row" style="margin-top:50px">
+                <div class="col-md-1"> </div>
+                <div class="col-md-10">
+                <div>  
+                <form class="form-horizontal" ng-submit="editdeliveryperson.deliverypersonSubmit()" name="deliverPersonForom">   
+                <div class="row">  
+                  <div class="col-md-6"> 
+                   <p> First Name <b style="font-size:20px;color:red">*</b> </p> 
+                   <input type="text" class="deliverPersonForom_field_input form-control" name="fname" id="fname" ng-model="deliveryperson.fname" placeholder="Enter Your First Name" ng-pattern-restrict="^$|^[A-Za-z]+" required />
+			       <div class="has-error" ng-show="deliverPersonForom.fname.$invalid">
+				      <span style="color:#cc4749" ng-show="deliverPersonForom.fname.$error.required && deliverPersonForom.fname.$touched"> First Name is required</span>
+			       </div> 
+			       </div>
+			       <div class="col-md-6"> 
+			       <p> Last Name <b style="font-size:20px;color:red">*</b> </p>
+			       <input type="text" class="deliverPersonForom_field_input form-control" name="lname" id="lname" ng-model="deliveryperson.lname" placeholder="Enter Your Last Name" required /> 
+			       <div class="has-error" ng-show="deliverPersonForom.lname.$invalid">
+		                <span style="color:#cc4749" ng-show="deliverPersonForom.lname.$error.required && deliverPersonForom.lname.$touched">Last Name is required</span>
+		           </div>
+		           </div>
+		           </div>
+
+		           <div class="row">
+		           <div class="col-md-6">
+		              <p> User Name <b style="font-size:20px;color:red">*</b> </p>
+			           <input type="text" class="deliverPersonForom_field_input form-control" name="userName" id="userName" ng-model="deliveryperson.userName" placeholder="Enter Username" required readonly />
+				       <div class="has-error" ng-show="deliverPersonForom.userName.$invalid">
+				           <span style="color:#cc4749" ng-show="deliverPersonForom.userName.$error.required && deliverPersonForom.userName.$touched"> User Name is required</span>
+			           </div>
+			          </div>
+			        <!-- <div class="col-md-6">
+		              <p> Password <b style="font-size:20px;color:red">*</b> </p>
+			           <input type="password" class="deliverPersonForom_field_input form-control" name="password" id="password" ng-model="deliveryperson.password" placeholder="Enter Password" readonly required />
+				       <div class="has-error" ng-show="deliverPersonForom.password.$invalid">
+				           <span style="color:#cc4749" ng-show="deliverPersonForom.password.$error.required && deliverPersonForom.password.$touched"> Password is required</span>
+			           </div>
+			          </div>  
+		           </div> -->
+
+		           <div class="col-md-6">
+		           <p> Phone No. <b style="font-size:20px;color:red">*</b> </p>
+		           <input type="text" class="deliverPersonForom_field_input form-control" name="phone" id="phone" ng-model="deliveryperson.phone" ng-minlength="10" ng-maxlength="11" oninput="this.value = this.value.replace(/[^0-9]/g, '').replace(/(\..*)\./g, '$1');" maxlength="11" placeholder=" Enter Your Phone No." required /> 
+			       <div class="has-error" ng-show="deliverPersonForom.phone.$invalid">
+			           <span style="color:#cc4749" ng-show="deliverPersonForom.phone.$error.required && deliverPersonForom.phone.$touched">Phone No is required</span>
+			           <span style="color:#cc4749" ng-show="((deliverPersonForom.phone.$error.minlength || deliverPersonForom.phone.$error.maxlength) && deliverPersonForom.phone.$dirty) "> Phone number is invalid </span>
+		           </div>
+		           </div>
+
+		           </div>
+
+                   <div class="row">     
+
+		           <div class="col-md-6">
+		           <p> Alternatine Phone No. </p>
+		           <input type="text" class="deliverPersonForom_field_input form-control" name="alternatePhone" id="alternatePhone" ng-model="deliveryperson.alternatePhone" ng-minlength="10" ng-maxlength="11" oninput="this.value = this.value.replace(/[^0-9]/g, '').replace(/(\..*)\./g, '$1');" maxlength="11" placeholder="Enter Alternative Phone No." /> 
+			       <div class="has-error" ng-show="deliverPersonForom.alternatePhone.$invalid">
+			           <span style="color:#cc4749" ng-show="((deliverPersonForom.alternatePhone.$error.minlength || deliverPersonForom.alternatePhone.$error.maxlength) && deliverPersonForom.alternatePhone.$dirty) "> Phone number is invalid </span>
+		           </div>
+		           </div>
+
+                   <div class="col-md-6">
+		           <p> Email <b style="font-size:20px;color:red">*</b> </p>
+			       <input type="email" class="deliverPersonForom_field_input form-control" name="email" id="email" ng-model="deliveryperson.email" placeholder="Your email" required /> 
+			       <div class="has-error" ng-show="deliverPersonForom.email.$invalid">
+		                <span style="color:#cc4749" ng-show="deliverPersonForom.email.$error.required && deliverPersonForom.email.$touched">Emaild is required</span>
+		                <span style="color:#cc4749" ng-show="deliverPersonForom.email.$invalid && deliverPersonForom.email.$touched && !deliverPersonForom.email.$error.required">Email is not valid </span> 
+		           </div>
+		           </div>
+
+		           </div>
+
+
+		           <div class="row">
+		           
+		           <div class="col-md-6">
+		           <p> Gender <b style="font-size:20px;color:red">*</b> </p>
+			       <select class="form-control" name="gender" id="gender" ng-model="deliveryperson.gender" required>
+			           <option value="male"> Male </option>
+			           <option value="female"> Female </option>
+			           <option value="Others"> Others </option>
+			       </select> 
+			       <div class="has-error" ng-show="deliverPersonForom.gender.$invalid">
+		                <span style="color:#cc4749" ng-show="deliverPersonForom.gender.$error.required && deliverPersonForom.gender.$touched">Gender is required</span>
+		           </div>
+		           </div>
+
+                   <div class="col-md-6">
+		           <p> Age <b style="font-size:20px;color:red">*</b> </p>
+		           <input type="text" class="deliverPersonForom_field_input form-control" name="age" id="age" ng-model="deliveryperson.age" ng-maxlength="3" oninput="this.value = this.value.replace(/[^0-9]/g, '').replace(/(\..*)\./g, '$1');" placeholder="Enter your age" required/> 
+			       <div class="has-error" ng-show="deliverPersonForom.age.$invalid">
+			           <span style="color:#cc4749" ng-show="deliverPersonForom.age.$error.required && deliverPersonForom.age.$touched">Age is required</span>
+		           </div>
+		           </div>
+
+		           </div>
+
+
+		           <div class="row">
+		           
+		           <div class="col-md-6">
+		           <p> Select Pincode <b style="font-size:20px;color:red">*</b> </p>
+<!-- 		           <div ng-dropdown-multiselect="" options="example14data" selected-model="example14model" checkboxes="true" extra-settings="setting1"></div>
+			         <div ng-dropdown-multiselect="" options="example14data" selected-model="example14model" extra-settings="setting2"></div>
+			       <div class="has-error" ng-show="deliverPersonForom.gender.$invalid">
+		                <span style="color:#cc4749" ng-show="deliverPersonForom.gender.$error.required && deliverPersonForom.gender.$touched">Gender is required</span>
+		           </div> -->
+		            <span style="margin-left:5px" ng-repeat="pincode in availablepincode"><input style="cursor: pointer;" class="deliveryperson_checkbox" type="checkbox" name="selecteditem_checkbox" value="{{pincode}}" id="{{pincode}}" ng-checked="false"> {{pincode}} </span> 
+		            <!-- <span style="margin-left:5px"><input style="cursor: pointer;" type="checkbox" name="selecteditem_checkbox" value="700121" id="700121" ng-checked="false"> 700121 </span>  -->
+		           </div>
+		           </div>
+
+		           <p style="margin-top:52px;text-align: center"> <button type="submit"  ng-disabled="deliverPersonForom.$invalid" disabled="disabled" class="btn btn-large deliveryperson_button"> SUBMIT </button>
+		           </p>
+	                  <p style="font-size:17px;color:green;text-align:center" id="usercreated">  </p>
+	                  <p style="font-size:17px;color:#cc4749;text-align:center" id="usernotcreated">  </p>
+			       </form>   
+                </div>
+                </div>
+                <div class="col-md-1"> </div>
+               </div> 
+
+
+
+   <!-- Main content -->
+   </div>
+<script>
+   // $(function () {
+   //   $("#div2").addClass("content-wrapper");
+   //   $("#deliverperson_li").addClass("active");
+   //   }); 
+</script>

@@ -1,0 +1,160 @@
+
+ <!-- Content Header (Page header) -->
+ <div ng-controller="OrderTakingController as ordertakingctrl">
+    <section class="content-header">
+      <h1>
+        Order Taking
+        <small>Sale Products</small>
+      </h1>
+      <ol class="breadcrumb">
+        <li><a href="#"><i class="fa fa-dashboard"></i> Level</a></li>
+        <li class="active">Here</li>
+      </ol>
+    </section>
+
+
+<audio id="myAudio">
+  <!-- <source src="https://www.w3schools.com/jsref/horse.ogg" type="audio/ogg"> -->
+  <source src="http://www.schillmania.com/projects/soundmanager2/demo/mpc/audio/CHINA_1.mp3" type="audio/mpeg">
+</audio>
+
+
+    <!-- Main content -->
+     <section class="content">
+      <div class="row">
+        <div class="col-xs-12">
+          <div class="box">
+            <div class="box-header">
+              <h3 class="box-title">Order Data Table</h3>
+            </div>
+            <!-- /.box-header -->
+            <div class="box-body">
+              <span ng-if="copy_items.length==0">No Data Found</span>
+              <table id="ordertbl" class="table table-bordered table-hover" ng-if="copy_items.length!=0">
+              	<tbody ng-repeat="order in copy_items |  limitTo:limit" ng-if="order.isCanceled != 1 && chkShow(order)">
+                 <tr style="background:#f1eeeedb">
+                 	<td colspan="5" style="font-weight: bold;text-align:left;"><span>ORDER ID:</span> <span style="color:#66c60a">{{order.invNo}}</span>  <span style="margin-left:20px"> ORDER DATE: </span> <span style="color:#66c60a"> {{order.invDate.split(' ')[0] | date : "dd-MM-yyyy"}}</span><span style="margin-left:20px"> PAYMENT MODE: </span> <span style="color:#66c60a" ng-if="order.paymentMode == 1"> ONLINE</span><span style="color:#66c60a" ng-if="order.paymentMode == 2"> COD</span> </td>
+                   <!--  <td colspan="4" style="font-weight: bold;text-align:left;">
+                      <a class="badge bg-green" ng-click="orderAccept(order);" ng-if="order.orderStatus == 0 "> Accept</a>
+                      <a class="badge bg-green" ng-click="saleOrder(order);" ng-if="order.orderStatus == 1 "> SALE</a>
+
+                    </td> -->
+                    
+                      <td colspan="3" style="font-weight: bold;text-align:right;">
+                      <!-- <button class="btn accept_all_btn" ng-click="itemAcceptAll(order);" ng-if="((time-order.dateparse)/3600000)<=time_interval"> Accept All </button>
+                      <button class="btn accept_all_btn" disabled="disabled" ng-if="((time-order.dateparse)/3600000)>time_interval"> Accept All </button> -->
+                      <button class="btn accept_all_btn" ng-if="order.prescriptions.length != 0 && ((time-order.dateparse)/3600000)<=time_interval" ng-click="downloadPrescription(order);">Download Prescription
+                      </button>
+                      <button class="btn accept_all_btn" disabled="disabled" ng-if="((time-order.dateparse)/3600000)>time_interval"> Download Prescription </button>
+                      </td>  
+                      
+                 </tr>
+                 <!-- <tr>
+                     <td colspan="8">
+                        <p> <span> <b> Name : </b> </span> <span style="margin-left:10px"> Aniket Daw </span> </p>
+                        <p> <span> <b> Phone No : </b> </span> <span style="margin-left:10px"> Aniket Daw </span> </p>
+                        <p> <span> <b> Address : </b> </span> <span style="margin-left:10px"> Aniket Daw </span> </p>
+                     </td>
+                 </tr> -->
+
+                 <tr>
+                 <!--  <td style="font-weight: bold;text-align:center;">Select</td> -->
+                  <td style="font-weight: bold;text-align:center;">No.</td>
+                  <td style="font-weight: bold;text-align:center;">Buyer Details</td>
+                  <td style="font-weight: bold;text-align:center;">Buyer Address</td>
+                  <td style="font-weight: bold;text-align:center;">Item Name</td>
+                  <td style="font-weight: bold;text-align:center;">Order Oty</td>
+                  <td style="font-weight: bold;text-align:center;">Delivery Type</td>
+                  <td style="font-weight: bold;text-align:center;">Order Status</td>
+                  <td style="font-weight: bold;text-align:center;">Action</td>
+                </tr>
+                <tr ng-repeat="orderdetails in order.orderDetails" ng-if="orderdetails.status == 0 ">
+                   <!-- <td style="text-align:center;"> <input type="checkbox" name="selecteditem_checkbox" value="{{orderdetails.id}}" > </td> -->
+                  <td style="text-align:center;">{{$index+1}}</td> 
+                  <td style="text-align:center;" valign="middle">
+                    <span ng-if="order.addressShipping.receiverName"> {{order.addressShipping.receiverName}} </span> <br>
+                    <span> <i class="fa fa-phone" aria-hidden="true"></i> </span> <span> {{order.addressShipping.contactPhone}} </span>
+                  </td>
+                  <td style="text-align:center;" valign="middle">{{order.addressShipping.streetAddress}} , {{order.addressShipping.city.name}} , {{order.addressShipping.state.name}} , {{order.addressShipping.country.name}} , {{order.addressShipping.pincode}} <br>
+                    <span ng-if="order.addressShipping.landmark"> <b> Landmark :</b> </span> <span> {{order.addressShipping.landmark}} </span>
+                  </td> 
+                  <td style="text-align:center;">{{orderdetails.itemName}}</td>
+                  <td style="text-align:center;">{{orderdetails.packQty}}</td>
+
+                  <td>
+                      <input type="radio" name="deliveryType_{{orderdetails.id}}" value="YMM Delivery" ng-click="deliveryTypeChoose(orderdetails.id)">
+                      <label for="YMM Delivery">YMM Delivery</label><br>
+                      <input type="radio" name="deliveryType_{{orderdetails.id}}" value="Shop Delivery" ng-click="deliveryTypeChoose(orderdetails.id)">
+                      <label for="Shop Delivery">Shop Delivery</label>
+                </td>
+
+                  <td style="text-align:center;">
+                  	<span ng-if="orderdetails.status == 0 " style="font-size:17px;color:#ea433a;font-weight:600">Progress</span>
+                    <span ng-if="orderdetails.status == 1 " style="font-size:17px;color:#0871b9;font-weight:600">Accepted</span>
+                    <span ng-if="orderdetails.status == 2 " style="font-size:17px;color:#34a853;font-weight:600">Sold</span>
+                  
+                </td>
+                 <td style="text-align:center;">
+                  <button class="btn single_accept_btn" ng-click="itemAccept(order,orderdetails.id);" ng-if="orderdetails.status == 0 && ((time-order.dateparse)/3600000)<=time_interval" id="storeAssign_{{orderdetails.id}}" disabled> Accept</button>
+                   <button class="btn single_accept_btn" style="padding:7px 20px;border-radius:50px" disabled="disabled" ng-if="orderdetails.status == 0 && ((time-order.dateparse)/3600000)>time_interval"> Accept </button>
+                 	<button class="btn single_accept_btn" ng-click="saleItem(order,orderdetails.id);" ng-if="orderdetails.status == 1"> SALE</button>
+                 
+                  </td>
+                 </tr>
+                </tbody>
+              </table>
+            </div>
+            <!-- /.box-body -->
+
+
+            <!-- ........... Pagination Part .............. -->
+
+                 <div ng-if="orders.length != 0" style="text-align:right;margin-top:20px">
+                  <nav aria-label="Page navigation" align="left" style="display:inline-block;margin-right:10px">
+                        <ul class="pagination">
+                            <li ng-class="{disabled:!navigators.prev.state}">
+                                <a aria-label="Previous" ng-click="prev()" >
+                                  <span aria-hidden="true">«</span>
+                                </a>
+                            </li>
+                            <li ng-repeat="page in pages" ng-class="{active:page.active}" ng-disabled="page.active">
+                                <a  ng-click="setPageActive(page.page)" >{{page.page}}</a>
+                            </li>
+                            <li ng-class="{disabled:!navigators.next.state}">
+                                <a aria-label="Next" ng-click="next()">
+                                   <span aria-hidden="true">»</span>
+                                </a>
+                            </li>
+                        </ul>
+                  </nav>
+              </div>
+
+             <!-- ........... Pagination Part End .............. -->
+
+
+<!--             <div class="box-footer">
+              <button type="button" class="btn btn-success pull-right" ng-click="nextData();" ng-if="orders.length % 10 == 0">Load More
+              </button>
+               <h1> {{orders.length}} </h1> 
+            </div> -->
+          </div>
+          <!-- /.box -->
+
+          
+        </div>
+        <!-- /.col -->
+      </div>
+      <!-- /.row -->
+    </section>
+    <!-- /.content -->
+  </div>
+    <script>
+    $(function () {
+     /*$("header, footer ,aside").hide();*/
+      $("#div2").addClass("content-wrapper");
+      $("#orders_li").addClass("active");
+     /* $('#ordertbl').DataTable()*/
+     
+      }); 
+
+    </script>

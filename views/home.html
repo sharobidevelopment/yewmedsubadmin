@@ -1,0 +1,108 @@
+ <!-- Content Header (Page header) -->
+ <div ng-controller="HomeController as hmctrl">
+    <section class="content-header">
+      <h1>
+        Page Header
+        <small>Optional description</small>
+      </h1>
+      <ol class="breadcrumb">
+        <li><a href="#"><i class="fa fa-dashboard"></i> Level</a></li>
+        <li class="active">Here</li>
+      </ol>
+    </section>
+
+
+<audio id="myAudio">
+  <!-- <source src="https://www.w3schools.com/jsref/horse.ogg" type="audio/ogg"> -->
+  <source src="http://www.schillmania.com/projects/soundmanager2/demo/mpc/audio/CHINA_1.mp3" type="audio/mpeg">
+</audio>
+
+
+    <!-- Main content -->
+    <section class="content container-fluid">
+        
+      <!-- ------------------------
+        | Your Page Content Here | -->
+
+
+          <div class="row" style="margin-top:50px">  
+           <!--  <div class="col-md-6"> 
+                <div class="row">
+                      <div class="col-md-6">
+                        <div class="form-group">
+                           <label>From Date</label>
+                           <div class="input-group date">
+                              <div class="input-group-addon">
+                                 <i class="fa fa-calendar"></i>
+                              </div>
+                              <input type="text" class="form-control pull-right" value="{{startDateYear}}-04-01" readonly="{{startDateYear}}-04-01">
+                           </div>
+                        </div>       
+                     </div>
+                     <div class="col-md-6">
+                        <div class="form-group">
+                           <label>To Date</label>
+                           <div class="input-group date">
+                              <div class="input-group-addon">
+                                 <i class="fa fa-calendar"></i>
+                              </div>
+                              <input type="text" class="form-control pull-right" id="datepicker1" ng-model='todate' ng-change="getSearchResult()">
+                           </div>
+                        </div>       
+                     </div>
+                </div>
+
+
+                <div style="background:white;border:1px solid #999;padding:10px;border-radius:10px">
+                    <canvas id="barChart" style="width: 100%!important;height:340px!important" on-finish-render="ngMapFinished"></canvas>
+                </div>  
+            </div> -->
+            <div class="col-md-12"> 
+              <div style="margin-top:100px">
+                  <!-- <a href="orders" class="btn btn-warning btn-lg" role="button" style="width: 30%;background-color:#008b8bb3; margin-right: 1%;font-size:17px"><span class="glyphicon glyphicon-user"></span> <br> Orders </a> -->
+                  <a href="acceptedorders" class="btn btn-warning btn-lg" role="button" style="width: 30%;background-color:lightslategrey; margin-right: 1%;font-size:17px"><span class="glyphicon glyphicon-list-alt"></span> <br> Accepted Orders </a>
+                  <a href="orderhistory" class="btn btn-warning btn-lg" role="button" style="width: 30%;background-color:#f0ad4e; margin-right: 1%;font-size:17px"><span class="glyphicon glyphicon-list-alt"></span> <br> Order History </a>
+              </div>
+
+              
+
+              <div style="margin-top:10px">
+                   <div class="btn btn-warning btn-lg" role="button" style="width: 48%;background-color:#3f7c987d; margin-right: 1%;font-size:17px"> 
+                        <p style="padding:0px 10px"> <span class="glyphicon glyphicon-gift" style="float:left"></span> <span style="float:right"> Total Order </span> <br>
+                         <span style="float:right" id="total_order_cnt">  </span> </p>
+                   </div>
+                   <div class="btn btn-warning btn-lg" role="button" style="width: 48%;background-color:#ff00d729; margin-right: 1%;font-size:17px"> 
+                        <p style="padding:0px 10px"> <span class="glyphicon glyphicon-user" style="float:left"></span> <span style="float:right"> Total Purchase Amount </span> <br>
+                          <span style="float:right" id="tolCnt_purchase_amt">  </span>  </p>
+                        <!-- <p style="text-align:right">  </p> --> <!-- {{allContacts.length}} -->
+                   </div>
+              </div>
+
+
+            </div>
+          
+       </div>
+
+
+        <!-- ------------------------ -->
+
+    </section>
+    <!-- /.content -->
+  </div>
+    <script>
+    $(function () {
+     /*$("header, footer ,aside").hide();*/
+      $("#div2").addClass("content-wrapper");
+      $("#home_li").addClass("active");
+
+
+      $('#datepicker1').datepicker({
+          autoclose: true,
+          format : "yyyy-mm-dd",
+          endDate :  new Date()
+          /*autoclose: true*/
+     })
+     $('#datepicker1').datepicker('setDate', new Date());
+      
+      });
+    </script>

@@ -1,0 +1,283 @@
+
+ <!-- Content Header (Page header) -->
+ <div ng-controller="AcceptedOrderController as acceptedorderctrl">
+    <section class="content-header">
+      <h1>
+        Accepted Orders
+        <small>Sale Products</small>
+      </h1>
+      <ol class="breadcrumb">
+        <li><a href="#"><i class="fa fa-dashboard"></i> Level</a></li>
+        <li class="active">Here</li>
+      </ol>
+    </section>
+
+    <audio id="myAudio">
+  <!-- <source src="https://www.w3schools.com/jsref/horse.ogg" type="audio/ogg"> -->
+  <source src="http://www.schillmania.com/projects/soundmanager2/demo/mpc/audio/CHINA_1.mp3" type="audio/mpeg">
+</audio>
+
+
+<section class="content-header">
+      <div class="row">
+         <div class="col-xs-12">
+            <div class="box">
+               <div class="box-header">
+                  <h3 class="box-title">Search Data</h3>
+               </div>
+               <div class="box-body">
+                  <div class="row">
+                     <div class="col-md-3">
+                        <div class="form-group">
+                           <label>From Date</label>
+                           <div class="input-group date">
+                              <div class="input-group-addon">
+                                 <i class="fa fa-calendar"></i>
+                              </div>
+                              <input type="text" class="form-control pull-right" id="datepicker1" ng-model='formdate'>
+                           </div>
+                        </div>
+                        <!-- /.form-group -->
+                       
+                     </div>
+                     <!-- /.col -->
+                     <div class="col-md-3">
+                        <div class="form-group">
+                           <label>To Date</label>
+                           <div class="input-group date">
+                              <div class="input-group-addon">
+                                 <i class="fa fa-calendar"></i>
+                              </div>
+                              <input type="text" class="form-control pull-right" id="datepicker2" ng-model='todate'>
+                           </div>
+                        </div>
+                        <!-- /.form-group -->
+                        
+                     </div>
+                     <div class="col-md-3">
+                        <div class="form-group">
+                           <label>Item Name</label>
+                           <div class="input-group date">
+                              <div class="input-group-addon">
+                                 <i class="fa fa-barcode"></i>
+                              </div>
+                              <input type="text" class="form-control pull-right" id="itemname"  ng-model='searchText' ng-keyup='fetchItems()'  ng-click='searchboxClicked($event);'  placeholder='Enter Item Name'>
+                                <div class="searchResultDiv" id="searchData">
+                                <ul id='searchResult' >
+                                 <li ng-click='setValue($index,$event)' 
+                                     ng-repeat="result in searchResult" >
+                                    {{ result.name }}
+                                        
+                                </li> 
+                              </ul>
+                            </div>
+                           </div>
+                        </div>
+                     </div>
+
+                     <div class="col-md-3">
+                         <div class="form-group" style="margin-top:24px">
+                           <button type="button" class="btn btn-block btn-primary" style="display:table-cell;width:90%;" ng-click="getSearchResult()">Get Data</button>
+                        </div>
+                     </div>
+                     <label style="color:red;">{{alertmsg}}</label>
+                     <!-- /.row -->
+                  </div>
+                  <!-- /.box-body -->
+<!--                    <div class="box-footer" style="text-align:center;">
+                    <label style="color:red;">{{alertmsg}}</label>
+                  </div>  -->
+               </div>
+            </div>
+         </div>
+      </div>
+   </section>
+    <!-- Main content -->
+     <section class="content">
+      <div class="row">
+        <div class="col-xs-12">
+          <div class="box">
+            <div class="box-header">
+              <h3 class="box-title">Accepted Orders Data Table</h3>
+            </div>
+            <!-- /.box-header -->
+            <div class="box-body">
+              <span ng-if=" copy_items.length==0">No Data Found</span>
+              <div style="overflow-x:auto;">
+              <table id="ordertbl" class="table table-bordered table-hover" ng-if="copy_items.length!=0">
+              	<tbody ng-repeat="order in copy_items | limitTo:limit" ng-if="order.isCanceled != 1 && chkShow(order)" style="width:100%">
+                 <tr style="background:#f1eeeedb">
+                 	<td colspan="11" style="font-weight: bold;text-align:left;"><span> ORDER ID: </span> <span style="color:#66c60a">{{order.invNo}}</span> <span style="margin-left:20px"> ORDER DATE: </span> <span style="color:#66c60a"> {{order.invDate.split(' ')[0] | date : "dd-MM-yyyy"}} </span> <span style="margin-left:20px"> ORDER TIME: </span> 
+                   <span style="color:#66c60a" ng-if="order.createdDate.split(' ')[1].split(':')[0]<12"> {{order.createdDate.split(' ')[1]}} AM </span> 
+                    <span style="color:#66c60a" ng-if="order.createdDate.split(' ')[1].split(':')[0]>=12"> {{order.createdDate.split(' ')[1].split(':')[0]-12}}:{{order.createdDate.split(' ')[1].split(':')[1]}}:{{order.createdDate.split(' ')[1].split(':')[2]}} PM </span>
+                  <span style="margin-left:20px"> PAYMENT MODE: </span> <span style="color:#66c60a" ng-if="order.paymentMode == 1"> ONLINE</span><span style="color:#66c60a" ng-if="order.paymentMode == 2"> COD</span> 
+                    <br>
+                    <b>Buyer Details :</b><span style="font-weight:500;margin-left:5px"> {{order.addressShipping.receiverName}} </span> 
+                    <span style="margin-left:10px"> <i class="fa fa-phone" aria-hidden="true"></i> </span> <span style="font-weight:500"> {{order.addressShipping.contactPhone}} </span>
+                    <br>
+                    <b>Buyer Address :</b> <span style="font-weight:500;margin-left:5px"> {{order.addressShipping.streetAddress}} , {{order.addressShipping.city.name}} , {{order.addressShipping.state.name}} , {{order.addressShipping.country.name}} , {{order.addressShipping.pincode}} </span> <br>
+                    <span ng-if="order.addressShipping.landmark"> <b> Landmark :</b> </span> <span style="font-weight:500;margin-left:5px"> {{order.addressShipping.landmark}} </span>
+                  </td>
+                  <!-- <td colspan="1"> 
+                        <button class="btn accept_all_btn" style="float:right;background:#4385f5!important" ng-click="saleItemAll(order);">Sale All </button>
+                  </td> -->
+                   <!--  <td colspan="4" style="font-weight: bold;text-align:left;">
+                      <a class="badge bg-green" ng-click="orderAccept(order);" ng-if="order.orderStatus == 0 "> Accept</a>
+                      <a class="badge bg-green" ng-click="saleOrder(order);" ng-if="order.orderStatus == 1 "> SALE</a>
+
+                    </td> -->
+                 </tr>
+                 <tr>
+                 <!--  <td style="font-weight: bold;text-align:center;">Select</td> -->
+                  <td style="font-weight: bold;text-align:center;">No.</td>
+                  <!-- <td style="font-weight: bold;text-align:center;">Buyer Details</td>
+                  <td style="font-weight: bold;text-align:center;">Buyer Address</td> -->
+                  <td style="font-weight: bold;text-align:center;">Item Name</td>
+                  <td style="font-weight: bold;text-align:center;">Order Oty</td>
+                  <td style="font-weight: bold;text-align:center;">Order Status</td>
+                  <td style="font-weight: bold;text-align:center;">Delivery Type</td>
+                  <td style="font-weight: bold;text-align:center;">Batch No</td>
+                  <td style="font-weight: bold;text-align:center;">Expiery Date</td>
+                  <td style="font-weight: bold;text-align:center;">Delivery Person</td>
+                  <td style="font-weight: bold;text-align:center;">Pickup Date</td>
+                  <td style="font-weight: bold;text-align:center;">Pickup Time</td>
+                  <td style="font-weight: bold;text-align:center;">Action</td>
+                </tr>
+                <tr ng-repeat="orderdetails in order.orderDetails" 
+                ng-if="orderdetails.status==1 && ((search==0) || ( search!=0 && orderdetails.itemId==search))" >
+                   <!-- <td style="text-align:center;"> <input type="checkbox" name="selecteditem_checkbox" value="{{orderdetails.id}}" > </td> -->
+                  <td style="text-align:center;">{{$index+1}}</td>
+
+                   <!-- <td style="text-align:center;" valign="middle">
+                    <span> {{order.addressShipping.receiverName}} </span> <br>
+                    <span> <i class="fa fa-phone" aria-hidden="true"></i> </span> <span> {{order.addressShipping.contactPhone}} </span>
+                  </td>
+                  <td style="text-align:center;" valign="middle">{{order.addressShipping.streetAddress}} , {{order.addressShipping.city.name}} , {{order.addressShipping.state.name}} , {{order.addressShipping.country.name}} , {{order.addressShipping.pincode}} <br>
+                    <span ng-if="order.addressShipping.landmark"> <b> Landmark :</b> </span> <span> {{order.addressShipping.landmark}} </span>
+                  </td>  -->
+
+                  <td style="text-align:center;">{{orderdetails.itemName}}</td>
+                  <td style="text-align:center;">{{orderdetails.packQty}}</td>
+
+                  <td style="text-align:center;">
+                  	<span ng-if="orderdetails.status == 0 " style="font-size:17px;color:#ea433a;font-weight:600">Progress</span>
+                    <span ng-if="orderdetails.status == 1 " style="font-size:17px;color:#0871b9;font-weight:600" >Accepted</span>
+                    <span ng-if="orderdetails.status == 2 " style="font-size:17px;color:#34a853;font-weight:600">Sold</span>
+                  
+                </td>
+                <td style="text-align:center"> {{orderdetails.deliveryType}} </td>
+
+                <td style="text-align:center;"> <input type="text" id="batch_{{orderdetails.id}}" ng-change="checkBatch(order,orderdetails.id,orderdetails)" ng-model="orderbatch"> </td>
+                <td style="text-align:center;"> <input type="text" id="expiery_{{orderdetails.id}}" ng-change="checkBatch(order,orderdetails.id,orderdetails)" oninput="this.value = this.value.replace(/[^0-9]/g, '').replace(/(\..*)\./g, '$1');" placeholder="MM/YYYY" maxlength="7" ng-model="orderexpiery"> </td>
+
+                <td>
+                   <select ng-if="orderdetails.deliveryType != 'YMM Delivery'" id="deliveryperson_{{orderdetails.id}}" ng-change="checkBatch(order,orderdetails.id,orderdetails)" ng-model="deliveryboy"> 
+                       <option value="" selected disabled hidden>  </option>
+                       <option ng-repeat="person in deliverypersonlist" value="{{person.id}}">{{person.fname + " " + person.lname }}</option>
+                   </select>
+                   <select disabled="true" ng-if="orderdetails.deliveryType == 'YMM Delivery'"> 
+                       <option value="" selected disabled hidden>  </option>
+                       <option ng-repeat="person in deliverypersonlist" value="{{person.id}}">{{person.fname + " " + person.lname }}</option>
+                   </select>
+                </td>
+                <td> 
+                   <select disabled="true" ng-if="orderdetails.deliveryType != 'YMM Delivery'"> 
+                       <option value="" selected disabled hidden>  </option>
+                       <option ng-repeat ="date in pickedDateArray" value="{{date.value}}">{{date.valshow}}</option>
+                   </select>
+                   <select ng-if="orderdetails.deliveryType == 'YMM Delivery'" id="deliverydate_{{orderdetails.id}}" ng-change="checkBatch(order,orderdetails.id,orderdetails)" ng-model="deliverydate"> 
+                       <option value="" selected disabled hidden>  </option>
+                       <option ng-repeat ="date in pickedDateArray" value="{{date.value}}">{{date.valshow}}</option>
+                   </select>
+                </td>
+                <td>
+                   <select disabled="true" ng-if="orderdetails.deliveryType != 'YMM Delivery'">
+                       <option value="" selected disabled hidden>  </option>  
+                       <option ng-repeat ="time in pickedtimeArray" value="{{time.value}}">{{time.valshow}}</option>
+                   </select>
+                   <select ng-if="orderdetails.deliveryType == 'YMM Delivery'" id="deliverytime_{{orderdetails.id}}" ng-change="checkBatch(order,orderdetails.id,orderdetails)" ng-model="deliverytime">
+                       <option value="" selected disabled hidden>  </option>  
+                       <option ng-repeat ="time in pickedtimeArray" value="{{time.value}}">{{time.valshow}}</option>
+                   </select>
+                </td>
+
+                 <td style="text-align:center;">
+                  <button class="btn single_accept_btn" ng-click="itemAccept(order,orderdetails.id, orderdetails);" ng-if="orderdetails.status == 0 "> Accept</button>
+                 	<button class="btn single_accept_btn" ng-click="saleItem(order,orderdetails.id, orderdetails);" ng-if="orderdetails.status == 1" id="saleitmbtn_{{orderdetails.id}}" disabled> SALE </button>
+                 
+                  </td>
+                 </tr>
+                </tbody>
+              </table>
+              </div>
+            </div>
+            <!-- /.box-body -->
+  <!--           <div class="box-footer">
+              <button type="button" class="btn btn-success pull-right" ng-click="nextData();" ng-if="orders.length!=0 && orders.length%10 ==0">Load More
+              </button>
+            </div> -->
+
+
+                         <!-- ........... Pagination Part .............. -->
+
+                 <div ng-if="orders.length != 0" style="text-align:right;margin-top:20px">
+                  <nav aria-label="Page navigation" align="left" style="display:inline-block;margin-right:10px">
+                        <ul class="pagination">
+                            <li ng-class="{disabled:!navigators.prev.state}">
+                                <a aria-label="Previous" ng-click="prev()" >
+                                  <span aria-hidden="true">«</span>
+                                </a>
+                            </li>
+                            <li ng-repeat="page in pages" ng-class="{active:page.active}" ng-disabled="page.active">
+                                <a  ng-click="setPageActive(page.page)" >{{page.page}}</a>
+                            </li>
+                            <li ng-class="{disabled:!navigators.next.state}">
+                                <a aria-label="Next" ng-click="next()">
+                                   <span aria-hidden="true">»</span>
+                                </a>
+                            </li>
+                        </ul>
+                  </nav>
+              </div>
+
+             <!-- ........... Pagination Part End .............. -->
+
+
+          </div>
+          <!-- /.box -->
+
+          
+        </div>
+        <!-- /.col -->
+      </div>
+      <!-- /.row -->
+    </section>
+    <!-- /.content -->
+  </div>
+    <script>
+    $(function () {
+      var currentDate = new Date();
+      var yyyy = currentDate.getFullYear().toString();
+      var mm = (currentDate.getMonth()+1).toString();
+      var dd  = currentDate.getDate().toString();
+     /*$("header, footer ,aside").hide();*/
+      $("#div2").addClass("content-wrapper");
+      $("#acceptedorders_li").addClass("active");
+     /* $('#ordertbl').DataTable()*/
+      $('#datepicker1').datepicker({
+          autoclose: true,
+          format : "yyyy-mm-dd",
+          endDate :  new Date(),
+     })
+     $("#datepicker1").val(yyyy+"-"+mm+"-"+dd); 
+
+     $('#datepicker2').datepicker({
+          autoclose: true,
+          format : "yyyy-mm-dd",
+          endDate :  new Date()
+       })
+     $("#datepicker2").val(yyyy+"-"+mm+"-"+dd);
+   
+      });
+
+    </script>
