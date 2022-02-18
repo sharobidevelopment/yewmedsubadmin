@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+
+<html ng-app="myApp">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <title>YewMed</title>
+  <!-- Tell the browser to be responsive to screen width -->
+  <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
+  <link rel="stylesheet" href="themes/css/bootstrap.min.css">
+  <!-- Font Awesome -->
+  <link rel="stylesheet" href="themes/css/font-awesome.min.css">
+  <!-- Ionicons -->
+  <link rel="stylesheet" href="themes/css/ionicons.min.css">
+  <!-- Theme style -->
+  <link rel="stylesheet" href="themes/css/AdminLTE.min.css">
+  <!-- AdminLTE Skins. We have chosen the skin-blue for this starter
+        page. However, you can choose any other skin. Make sure you
+        apply the skin class to the body tag so the changes take effect. -->
+  <link rel="stylesheet" href="themes/css/skin-blue.min.css">
+  <link rel="stylesheet" href="themes/css/blue.css">
+  <link rel="stylesheet" href="themes/css/dataTables.bootstrap.min.css">
+
+  <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+  <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+  <!--[if lt IE 9]>
+  <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
+  <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+  <![endif]-->
+  
+  <!-- for alert box -->
+    <link href="themes/css/alert.css" rel="stylesheet"/>
+    <link href="themes/css/theme.css" rel="stylesheet"/>
+    <link href="themes/css/loader.css" rel="stylesheet"/>
+    
+
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.7.1/css/bootstrap-datepicker.min.css" rel="stylesheet"/>
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+  
+    <script src="themes/alertify.min.js"></script>
+    <link rel="stylesheet" href="themes/alertify.core.css" /><!-- 
+    <link rel="stylesheet" href="themes/alertify.bootstrap.css"/> -->
+    <link rel="stylesheet" href="themes/alertify.default.css" id="toggleCSS" />
+
+
+
+  <!-- Google Font -->
+  <link rel="stylesheet"
+        href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,600,700,300italic,400italic,600italic">
+
+
+<style type="text/css">
+ .searchResultDiv{
+   display:none;
+  
+ }
+ .searchResultDiv ul {
+  position: absolute;
+  max-height: 200px;
+  padding: 0px;
+  margin: 0px;
+  text-align: left;
+  overflow-y: scroll;
+  overflow: auto;
+}
+  #searchResult{
+  list-style: none;
+  padding: 0px;
+  width: 290px;
+  position: absolute;
+  margin: 0;
+  z-index: 2;
+  top: 30px;
+}
+
+#searchResult li{
+  background: lavender;
+  padding: 4px;
+  margin-bottom: 1px;
+}
+
+#searchResult li:nth-child(even){
+  background: cadetblue;
+  color: white;
+}
+
+#searchResult li:hover{
+  cursor: pointer;
+}
+
+/*input[type=text]{
+  padding: 5px;
+  width: 250px;
+  letter-spacing: 1px;
+}*/
+
+
+</style>
+
+
+
+</head>
+
+<body class="hold-transition skin-blue sidebar-mini">
+<div class="wrapper" id="div1">
+
+  <!-- Header Start-->
+ <header class="main-header" ng-include="'views/header.html'" id="pgheader"></header>
+  <!-- Header End-->
+  <!--  Side bar start -->
+  <aside class="main-sidebar" ng-include="'views/sidebar.html'" id="pgsidebar"> </aside>
+   <!--  Side bar end -->
+
+  <!-- Content Wrapper. Contains page content -->
+ <div class="content-wrapper" id="div2">
+     <ng-view>
+
+	 </ng-view>
+  </div>
+   
+  
+  <!-- /.content-wrapper -->
+
+<!-- Main Footer start -->
+   <footer class="main-footer" ng-include="'views/footer.html'" id="pgfooter"></footer>
+<!-- Main Footer end-->
+  
+  
+  <!--<div class="control-sidebar-bg"></div>-->
+</div>
+<!-- ./wrapper -->
+
+<!-- REQUIRED JS SCRIPTS -->
+<script type="text/javascript">
+  // var serverurl = "http://192.168.1.156:8087";
+  // var serverurl = "http://localhost:8081/ecom_med";
+  // var serverurl = "http://192.168.1.124:8087";
+  // var serverurl = "http://192.168.1.123:8080/ecom";
+  // var serverurl = "http://192.168.1.124:8080/ecom";
+   // var serverurl = "http://40.81.88.227/ecom";
+   var serverurl = "https://yewmedmart.in/ecom";
+   //var serverurl = "http://localhost:8082/ecom";
+</script>
+
+<!-- jQuery 3 -->
+<script src="themes/js/jquery.min.js"></script>
+<!-- Bootstrap 3.3.7 -->
+<script src="themes/js/bootstrap.min.js"></script>
+<!-- AdminLTE App -->
+<script src="themes/js/adminlte.min.js"></script>
+<script src="themes/js/icheck.min.js"></script>
+ <script src="js/angular.min.js"></script> 
+ <script src="themes/js/ui-bootstrap.js" type="text/javascript"></script> 
+ <script src="themes/js/ui-bootstrap.js" type="text/javascript"></script> 
+ <script src="themes/js/datatables.net-bs/js/dataTables.bootstrap.min.js" ></script> 
+ <script src="themes/js/datatables.net/js/jquery.dataTables.min.js" ></script> 
+ <script src="themes/js/bootstrap-datepicker.min.js"></script>
+ <script src="https://cdnjs.cloudflare.com/ajax/libs/lodash.js/3.7.0/lodash.min.js"></script>
+  <script src="js/angularjs-dropdown-multiselect.min.js"></script>
+<!-- For alert box  -->
+    <script src="themes/js/alert.js"></script>
+
+ <script src="js/angular-route.js"></script> 
+ <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/angular-ui-router/1.0.20/angular-ui-router.js"></script>
+ <script src="js/angular-cookies.js"></script>
+ <script src="js/angular-idle.js"></script>    
+ <script src="js/angular-touch.js"></script> 
+ <script src="js/angular-animate.js"></script> 
+ <script src="js/ng-infinite-scroll.min.js"></script> 
+  <script src="js/moment.js"></script> 
+ <script src="app.js"></script> 
+
+
+<!-- .......................Angular Controller.......................... -->
+
+    
+<script src="AngularController/Login_Controller.js"></script>
+<script src="AngularController/OrderTaking_Controller.js"></script>
+<script src="AngularController/Home_Controller.js"></script>
+<script src="AngularController/AcceptedOrder_Controller.js"></script>
+<script src="AngularController/OrderHistory_Controller.js"></script>
+<script src="AngularController/dispatchorder_controller.js"></script>
+<script src="AngularController/deliveredorder_controller.js"></script>
+<script src="AngularController/deliveryperson_controller.js"></script>
+<script src="AngularController/deliverypersonlist_controller.js"></script>
+<script src="AngularController/editdeleveryperson_controller.js"></script>
+
+
+<!-- .......................Angular Service.......................... -->
+
+
+<script src="AngularService/Login_Service.js"></script>
+<script src="AngularService/OrderTaking_Service.js"></script>
+<script src="AngularService/AcceptedOrder_Service.js"></script>
+<script src="AngularService/OrderHistory_Service.js"></script> 
+<script src="AngularService/dispatchorder_service.js"></script>
+<script src="AngularService/deliveredorder_service.js"></script>
+
+<script async defer
+      src="https://maps.googleapis.com/maps/api/js?key=AIzaSyA7kcAw3JkmSf-Ej0l_wX3h3aD71wc-G64&libraries=places">
+    </script>
+  
+<script src='https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.2.1/Chart.min.js'></script>
+
+</body>
+</html>
